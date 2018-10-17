@@ -1,0 +1,658 @@
+﻿
+<script>
+
+
+    var autoComplete = function () { function e(e) { function t(e, t) { return e.classList ? e.classList.contains(t) : new RegExp("\\b" + t + "\\b").test(e.className) } function o(e, t, o) { e.attachEvent ? e.attachEvent("on" + t, o) : e.addEventListener(t, o) } function s(e, t, o) { e.detachEvent ? e.detachEvent("on" + t, o) : e.removeEventListener(t, o) } function n(e, s, n, l) { o(l || document, s, function (o) { for (var s, l = o.target || o.srcElement; l && !(s = t(l, e)) ;) l = l.parentElement; s && n.call(l, o) }) } if (document.querySelector) { var l = { selector: 0, source: 0, minChars: 3, delay: 150, offsetLeft: 0, offsetTop: 1, cache: 1, menuClass: "", renderItem: function (e, t) { t = t.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"); var o = new RegExp("(" + t.split(" ").join("|") + ")", "gi"); return '<div class="autocomplete-suggestion" data-val="' + e + '">' + e.replace(o, "<b>$1</b>") + "</div>" }, onSelect: function () { } }; for (var c in e) e.hasOwnProperty(c) && (l[c] = e[c]); for (var a = "object" == typeof l.selector ? [l.selector] : document.querySelectorAll(l.selector), u = 0; u < a.length; u++) { var i = a[u]; i.sc = document.createElement("div"), i.sc.className = "autocomplete-suggestions " + l.menuClass, i.autocompleteAttr = i.getAttribute("autocomplete"), i.setAttribute("autocomplete", "off"), i.cache = {}, i.last_val = "", i.updateSC = function (e, t) { var o = i.getBoundingClientRect(); if (i.sc.style.left = Math.round(o.left + (window.pageXOffset || document.documentElement.scrollLeft) + l.offsetLeft) + "px", i.sc.style.top = Math.round(o.bottom + (window.pageYOffset || document.documentElement.scrollTop) + l.offsetTop) + "px", i.sc.style.width = Math.round(o.right - o.left) + "px", !e && (i.sc.style.display = "block", i.sc.maxHeight || (i.sc.maxHeight = parseInt((window.getComputedStyle ? getComputedStyle(i.sc, null) : i.sc.currentStyle).maxHeight)), i.sc.suggestionHeight || (i.sc.suggestionHeight = i.sc.querySelector(".autocomplete-suggestion").offsetHeight), i.sc.suggestionHeight)) if (t) { var s = i.sc.scrollTop, n = t.getBoundingClientRect().top - i.sc.getBoundingClientRect().top; n + i.sc.suggestionHeight - i.sc.maxHeight > 0 ? i.sc.scrollTop = n + i.sc.suggestionHeight + s - i.sc.maxHeight : 0 > n && (i.sc.scrollTop = n + s) } else i.sc.scrollTop = 0 }, o(window, "resize", i.updateSC), document.body.appendChild(i.sc), n("autocomplete-suggestion", "mouseleave", function () { var e = i.sc.querySelector(".autocomplete-suggestion.selected"); e && setTimeout(function () { e.className = e.className.replace("selected", "") }, 20) }, i.sc), n("autocomplete-suggestion", "mouseover", function () { var e = i.sc.querySelector(".autocomplete-suggestion.selected"); e && (e.className = e.className.replace("selected", "")), this.className += " selected" }, i.sc), n("autocomplete-suggestion", "mousedown", function (e) { if (t(this, "autocomplete-suggestion")) { var o = this.getAttribute("data-val"); i.value = o, l.onSelect(e, o, this), i.sc.style.display = "none" } }, i.sc), i.blurHandler = function () { try { var e = document.querySelector(".autocomplete-suggestions:hover") } catch (t) { var e = 0 } e ? i !== document.activeElement && setTimeout(function () { i.focus() }, 20) : (i.last_val = i.value, i.sc.style.display = "none", setTimeout(function () { i.sc.style.display = "none" }, 350)) }, o(i, "blur", i.blurHandler); var r = function (e) { var t = i.value; if (i.cache[t] = e, e.length && t.length >= l.minChars) { for (var o = "", s = 0; s < e.length; s++) o += l.renderItem(e[s], t); i.sc.innerHTML = o, i.updateSC(0) } else i.sc.style.display = "none" }; i.keydownHandler = function (e) { var t = window.event ? e.keyCode : e.which; if ((40 == t || 38 == t) && i.sc.innerHTML) { var o, s = i.sc.querySelector(".autocomplete-suggestion.selected"); return s ? (o = 40 == t ? s.nextSibling : s.previousSibling, o ? (s.className = s.className.replace("selected", ""), o.className += " selected", i.value = o.getAttribute("data-val")) : (s.className = s.className.replace("selected", ""), i.value = i.last_val, o = 0)) : (o = 40 == t ? i.sc.querySelector(".autocomplete-suggestion") : i.sc.childNodes[i.sc.childNodes.length - 1], o.className += " selected", i.value = o.getAttribute("data-val")), i.updateSC(0, o), !1 } if (27 == t) i.value = i.last_val, i.sc.style.display = "none"; else if (13 == t || 9 == t) { var s = i.sc.querySelector(".autocomplete-suggestion.selected"); s && "none" != i.sc.style.display && (l.onSelect(e, s.getAttribute("data-val"), s), setTimeout(function () { i.sc.style.display = "none" }, 20)) } }, o(i, "keydown", i.keydownHandler), i.keyupHandler = function (e) { var t = window.event ? e.keyCode : e.which; if (!t || (35 > t || t > 40) && 13 != t && 27 != t) { var o = i.value; if (o.length >= l.minChars) { if (o != i.last_val) { if (i.last_val = o, clearTimeout(i.timer), l.cache) { if (o in i.cache) return void r(i.cache[o]); for (var s = 1; s < o.length - l.minChars; s++) { var n = o.slice(0, o.length - s); if (n in i.cache && !i.cache[n].length) return void r([]) } } i.timer = setTimeout(function () { l.source(o, r) }, l.delay) } } else i.last_val = o, i.sc.style.display = "none" } }, o(i, "keyup", i.keyupHandler), i.focusHandler = function (e) { i.last_val = "\n", i.keyupHandler(e) }, l.minChars || o(i, "focus", i.focusHandler) } this.destroy = function () { for (var e = 0; e < a.length; e++) { var t = a[e]; s(window, "resize", t.updateSC), s(t, "blur", t.blurHandler), s(t, "focus", t.focusHandler), s(t, "keydown", t.keydownHandler), s(t, "keyup", t.keyupHandler), t.autocompleteAttr ? t.setAttribute("autocomplete", t.autocompleteAttr) : t.removeAttribute("autocomplete"), document.body.removeChild(t.sc), t = null } } } } return e }(); !function () { "function" == typeof define && define.amd ? define("autoComplete", function () { return autoComplete }) : "undefined" != typeof module && module.exports ? module.exports = autoComplete : window.autoComplete = autoComplete }();
+    var formatSizeUnits = function (bytes) {
+        if (bytes >= 1073741824) { bytes = (bytes / 1073741824).toFixed(2) + ' GB'; } else if (bytes >= 1048576) { bytes = (bytes / 1048576).toFixed(2) + ' MB'; } else if (bytes >= 1024) { bytes = (bytes / 1024).toFixed(2) + ' KB'; } else if (bytes > 1) { bytes = bytes + ' bytes'; } else if (bytes == 1) { bytes = bytes + ' byte'; } else { bytes = '0 byte'; }
+        return bytes;
+    };
+
+    animobile.repoApi = function (api, data, success, failed, binary) {
+        var request = {
+            url: "http://blmani.com/aniparti_fan/wp-json/aniparti/" + api, method: "POST",
+            dataType: "json",
+
+            success: function (res) {
+                success(res);
+            },
+            error: function (err) {
+                if (failed) failed(err.responseJSON);
+                else console.error(err);
+            },
+        };
+        if (api.indexOf('http') > -1) {
+            request.url = api;
+        }
+        if (!binary) {
+            request.data = data;
+        }
+        else {
+            request.contentType = false;
+            request.processData = false;
+            delete request.dataType;
+            request.data = data;
+        }
+        $.ajax(request);
+    };
+
+    ani.bindElements($(document), document);
+
+    var search_repo = {
+        addSearchitem: function (item) {
+            item.content = JSON.parse(item.content);
+            item.content.url = item.content.url;
+            item.tag1 = formatSizeUnits(item.content.size);
+            item.typetag = ctypes[item.type];
+            item.type = parseInt(item.type)
+            if (item.type == 14200) {
+                item.tag2 = ((item.content.bufferTime / 1000).toFixed(2)) + " secs";
+            }
+            else {
+                item.tag2 = item.content.width + "x" + item.content.height;
+            }
+            if (item.type == 14130) {
+                item.thumbUrl = "http://blmani.com/aniparti_fan/thumb.php?s=aniparti_fan/com/" + item.content.url + "&w=92&h=92&hcr=true";
+            }
+            else {
+                item.thumbUrl = "http://blmani.com/aniparti_fan/thumb.php?s=aniparti_fan/com/" + item.content.url + "&w=92&h=92";
+
+            }
+
+            var item$ = $(ani.parseItemTags(animobile.searchRepoItemTemplate, function (k) { return (eval(k)) }));
+            item$[0].repoItem = item;
+
+
+            document.search_repo_results.$.append(item$);
+
+        },
+        loadItems: function (clear) {
+            var tags = $('#search_repo_keywords_list a').map(function () { return $(this).text(); }).get();
+            var type = animobile.repoTypeSelected;
+            if (clear) document.search_repo_results.$.html("");
+            var start = document.search_repo_results.$.find(".repo_item").length;
+
+            var q = { limit: { start: start, count: 20 }, fetchContent: true, filter: {} };
+
+            if (type != 0) q.filter.type = type;
+
+            if (tags.length > 0) q.filter.tags = tags;
+
+            animobile.showProcessing();
+            search_repo.loadingItems = true;
+            animobile.repoApi('search_repo', q, function (res) {
+                console.log(res);
+                res.data.forEach(function (item) {
+                    search_repo.addSearchitem(item);
+                });
+
+                if (type != 0) { document.search_repo_screen.$.find(".typetag").hide(); }
+                animobile.hideProcessing();
+                if (res.data.length > 0) search_repo.loadingItems = false;
+            });
+
+        },
+        autoComplete: new autoComplete({
+            selector: 'input[id="search_repo_keyword"]',
+            minChars: 1,
+            source: function (term, suggest) {
+                term = term.toLowerCase();
+
+                var choices = ["pattern", "product", "sock", "shopping", "bag", "window", "building", "shutter", "graffiti", "hand", "card", "farm", "animal", "cattle"];
+                animobile.repoApi('get_atags', { term: term }, function (res) {
+                    choices = res;
+                    console.log("tags Loaded");
+                    console.log(res);
+                    var suggestions = [];
+                    for (i = 0; i < choices.length; i++) {
+                        if (~(choices[i][0][0] + ' ' + choices[i][0][1]).toLowerCase().indexOf(term)) suggestions.push(choices[i][0]);
+                    }
+                    suggest(suggestions);
+                });
+
+
+            },
+            renderItem: function (item, search) {
+                search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+                return '<div class="autocomplete-suggestion" data-keyword="' + item + '"> ' + item.replace(re, "<b>$1</b>") + '</div>';
+            },
+            onSelect: function (e, term, item) {
+                document.search_repo_keywords_list.$.append('<a href="#" class="color-black"><i class="chips-icon bmico bmico-cross-icon"></i>' + item.getAttribute('data-keyword') + '</a>');
+
+            }
+        }),
+        showItemInfo: function (item) {
+            if (item.type == 14200) {
+                item.extraInfo = "Length";
+                item.extraInfoValue = item.content.bufferTime + " secs";
+            }
+            else {
+                item.extraInfo = "Dimensions";
+                item.extraInfoValue = item.content.width + "x" + item.content.height;                
+            }
+
+            var popup = ani.modals.open({ element: ani.parseItemTags(animobile.searchRepoItemInfoTemplate, function (k) { return (eval(k)) }) });
+            popup.ready = function () {
+                this.setWidth("300px");
+                this.$.css("overflow", "hidden");
+                document.search_repo_screen.$.blurDrop(true);
+                this.$.find(".bmico-cross-icon")[0].onclick = function () {
+                    document.search_repo_screen.$.blurDrop();
+                    popup.close();
+                };
+            };
+
+        }
+    };
+
+    animobile.search_repo = search_repo;
+
+   
+
+    animobile.showSearchRepo = function (completeAction) {
+
+        document.search_repo_results.$.html("");
+        document.body.appendChild(document.search_repo_screen);
+        document.search_repo_screen.$.show();
+        document.search_repo_apply_button.onclick = function () {
+            var selecetdItems = document.search_repo_results.$.find(".repo_item.selected");
+            if (completeAction) {
+                var repoItems = [];
+                selecetdItems.each(function () {
+                    repoItems.push(this.repoItem);
+                });
+                completeAction(repoItems);
+
+            }
+            document.search_repo_screen.$.hide();
+        };
+
+    };
+
+
+
+
+    document.search_repo_keywords_list.$.click(function (e) {
+        if (e.target.tagName.toLowerCase() == "a") {
+            $(e.target).remove();
+        }
+
+    });
+
+
+
+    var ctypes = {"14200":"Sound","14120":"Character","14110":"Bubble","14140":"Image","14130":"Emoj","14100":"Background"};
+    animobile.repoTypeSelected=0;
+
+
+    $.fn.scrollHeightItems = function (heightCallback, callback) {
+        var self = this;
+
+        self.perform = function () {
+            var height = heightCallback();
+            var sHeight = self.scrollTop() + self.height();
+            if (sHeight >= document.search_repo_results.$[0].scrollHeight) {
+
+                callback();
+            }
+        };
+
+        this.scroll(self.perform);
+        return (this);
+    };
+    document.search_repo.$.click(function (e) {
+        search_repo.loadItems(true);
+
+    });
+    document.search_repo_results_area.$.scrollHeightItems(
+            function () {
+                var h = document.search_repo_results.$.height();
+                return (h - 10);
+            },
+            function () {
+                //console.log("searchrepo loading items",search_repo.loadingItems);
+                if (!search_repo.loadingItems)
+                {
+                   // console.log("searchrepo loading items",search_repo.loadingItems);
+                   // console.log("execute callback");
+                    search_repo.loadItems();}
+            }
+    );
+
+
+
+
+    document.search_repo_results.$.click(function (e) {
+        if (e.target.repoItem) {
+            $(e.target).toggleClass("selected");
+        }
+        else if(e.target.tagName.toLowerCase() =="i")
+        {
+          item=e.target.parentNode.parentNode.repoItem;       
+
+          search_repo.showItemInfo(item);
+
+        }
+    });
+
+    document.search_repo_screen.$.find(".scrollmenu a").click(function(){
+        animobile.repoTypeSelected = $(this).data("type");
+        $(".scrollmenu a.active").removeClass("active");
+        $(this).addClass("active");
+    });
+   
+
+</script>
+
+<div>
+    <style>
+        .autocomplete-suggestions {
+            text-align: left;
+            cursor: default;
+            border: 1px solid #ccc;
+            border-top: 0;
+            background: #fff;
+            box-shadow: -1px 1px 3px rgba(0,0,0,.1);
+            /* core styles should not be changed */
+            position: absolute;
+            display: none;
+            z-index: 9999;
+            max-height: 254px;
+            overflow: hidden;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .autocomplete-suggestion {
+            position: relative;
+            padding: 0 .6em;
+            line-height: 23px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1.02em;
+            color: #333;
+        }
+
+            .autocomplete-suggestion b {
+                font-weight: normal;
+                color: #1f8dd6;
+            }
+
+            .autocomplete-suggestion.selected {
+                background: #f0f0f0;
+            }
+
+        .search_repo_screen .page-input input[type="text"], .search_repo_screen .page-input .default-select {
+            text-align: left;
+            width: 100%;
+            border: solid 1px #e3e3e3 !important;
+        }
+
+        .search_repo_screen .editPages .page-input {
+            min-height: 40px;
+        }
+
+        .search_repo_keywords_list a {
+            float: left;
+        }
+
+            .search_repo_keywords_list a i {
+                pointer-events: none;
+                background-color: #e44130;
+                color: #ffffff;
+            }
+
+        .repo_item {
+            border-radius: 5px;
+            -webkit-box-shadow: 0px 0px 26px -8px #CECECE;
+            -moz-box-shadow: 0px 0px 26px -8px #CECECE;
+            box-shadow: 0px 0px 26px -8px #CECECE;
+            display: block;
+            width: 31%;
+            height: 130px;
+            /* border: solid 2px transparent; */
+            float: left;
+            margin: 4px;
+            overflow: hidden;
+            position: relative;
+                border: 2px solid transparent;
+        }
+
+        .repo_item .info-icon{
+            display:none;
+            position:absolute;left:0;right:0;bottom:0;top:0;background-color:#c5c5c5;
+            opacity:0.7;
+            color:#515151;
+            pointer-events:none;
+        }
+        .repo_item .info-icon >i {
+            position:absolute;left:50%;top:50%;
+            margin-left:-20.5px;
+            margin-top:-24px;
+            font-size:48px;
+            pointer-events:fill;
+        }
+         
+          .repo_item:hover .info-icon{
+             display:unset;
+
+         }
+            .repo_item .info {
+                font-size: 12px;
+                visibility: visible !important;
+                height: auto;
+                position: absolute;
+                left: 0;
+                /* top: 0; */
+                /* bottom: 0; */
+                bottom: 0;
+                background-color: #fbfbfb;
+                width: 100%;
+            }
+
+            .repo_item:hover .info {
+                visibility: visible;
+            }
+
+            .repo_item.selected {
+                    border: 2px solid #bbbbbb;
+            }
+
+            .repo_item .info h6 {
+                position: absolute;
+                left: 0;
+                right: 0;
+                text-align: center;
+            }
+
+            .repo_item .info .tag1 {
+                /* top:4px; */
+                font-size: 11px !important;
+                margin: 5px !important;
+                float: left !important;
+            }
+
+            .repo_item .info .tag2 {
+                margin: 5px !important;
+                float: right !important;
+                font-size: 16px;
+                /* bottom:4px; */
+            }
+
+            .repo_item img {
+                max-width: 100%;
+                /* transform: translateY(7%); */
+                max-height: 100%;
+                height: 80%;
+                width: 200px;
+                pointer-events: none;
+                position: absolute;
+                /* left: 1px;
+        top: 1px; */
+            }
+
+        div.scrollmenu {
+            font-size: 14px;
+            /* background-color: #333; */
+            overflow: auto;
+            white-space: nowrap;
+        }
+
+            div.scrollmenu > a {
+                display: inline-block;
+                color: black;
+                text-align: center;
+                padding: 5px 10px 5px 10px;
+                text-decoration: none;
+            }
+
+        .active {
+            background-color: #ef3737;
+            color: white !important;
+            border-radius: 20px;
+        }
+
+        .bgdivs {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            width: 900px;
+            overflow-x: auto;
+        }
+
+            .bgdivs a {
+                flex: 0 0 auto;
+                width: 150px;
+                height: 150px;
+            }
+
+        div.scrollmenu > a:hover {
+            /* background-color: #ef3737;
+        color: white;
+        border-radius: 20px; */
+        }
+
+        .wrapper {
+            /* background:#EFEFEF;
+            box-shadow: 1px 1px 10px #999;  */
+            margin: auto;
+            text-align: center;
+            position: relative;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            /* margin-bottom: 20px !important; */
+            width: 100%;
+            padding-top: 5px;
+            height: 100%;
+        }
+
+        .scrolls {
+            overflow-x: scroll;
+            overflow-y: hidden;
+            height: 100%;
+        }
+
+        .imageDiv {
+            white-space: nowrap;
+            margin: 0;
+            height: 80px;
+            width: 1200px;
+        }
+
+            .imageDiv img {
+                box-shadow: 1px 1px 10px #999;
+                margin: 2px;
+                max-height: 120px;
+                cursor: pointer;
+                display: inline-block;
+                border-radius: 5px;
+            }
+
+        .left {
+            float: left;
+            padding-left: 15px;
+            color: #9b9b9b;
+        }
+
+        .right {
+            color: #636464;
+            float: right;
+            padding-right: 15px;
+        }
+
+        .lightgraybr {
+            border-bottom: 1px solid #ebebeb;
+        }
+
+        #closeti {
+            position: absolute;
+            right: 0;
+            font-size: 20px;
+            color: #d7d7d7;
+            z-index: 999;
+            width: 40px;
+            height: 40px;
+        }
+
+        #infop {
+            display: none;
+            border-radius: 10px;
+            text-align: center;
+            position: absolute;
+            top: 25%;
+            left: 18%;
+            width: 65%;
+            height: auto;
+            /* height: 100px; */
+            background: white;
+            z-index: 999;
+        }
+
+            #infop img {
+                width: 100%;
+                height: auto;
+            }
+    </style>
+    <div data-bind="search_repo_screen" class="fullScreenDiv" style="overflow: hidden;background-color:#ffffff;display:none;z-index:1000;height: 100vh;">
+        <div id="nav" style="border-bottom: 1px solid #f9f9ff;height:50px;">
+            <div id="headg" style="position: absolute; left: 50%;"> <h4 style="color: #ed4e4e;position: relative; left: -50%; top:15px;padding-bottom: 10px;font-weight:bold;">Search Object</h4></div>
+            <i class="bmico bmico-cross-icon" onclick="document.search_repo_screen.$.hide();" style="position:absolute;left:10px;top:15px;font-size:18px"></i>
+        </div>
+        
+
+
+        <div id="setbutons" style="z-index: 999;  position: absolute;width: 100%;height: 50px;right: 5px;left: 0;bottom: 0;">
+            <a href="javascript:;" data-bind="search_repo_cancel_button" class="button newui-red" style="float: left;width: 50%;height: 100%; background-color: gray !important;    padding: 10px;font-size: 15px;">Cancle</a>
+            <a href="javascript:;" data-bind="search_repo_apply_button" class="button newui-red" style="float: right;width: 50%;padding: 10px;font-size: 15px;height: 100%;">Get</a>
+        </div>
+        <div style="position:absolute;width:100%;top:55px;height: calc(100vh - 50px);">
+            <table class="editPages" style="width:100%;margin:0;background-color: #f5f8f9 !important;">
+                <tr style="background-color: white !important;">
+
+                    <td colspan="2" style="height:40px;    box-shadow: 0px 5px 8px -5px rgba(0,0,0,0.14);-webkit-box-shadow: 0px 5px 8px -5px rgba(0,0,0,0.14);-moz-box-shadow: 0px 5px 8px -5px rgba(0,0,0,0.14);">
+                        <div class="page-input input-simple-1 input-blue  dropdown" field="canvasSize" fieldtype="string">
+
+                            <div style="position:absolute;width:99%;">
+                                <div class="scrollmenu">
+                                    <a data-type="0" class="active" href="javascript:;">All</a>
+                                    <a data-type="14200" href="javascript:;">Sound</a>
+                                    <a data-type="14120" href="javascript:;">Character</a>
+                                    <a data-type="14110" href="javascript:;">Bubble</a>
+                                    <a data-type="14140" href="javascript:;">Image</a>
+                                    <a data-type="14130" href="javascript:;">Emoj</a>
+                                    <a data-type="14100" href="javascript:;">Background</a>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr style="     width: 95%;background-color: white !important;height: 50px;border:1px solid #eaf0f1;margin: 10px 10px 10px 10px;border-radius: 10px;display: block;">
+                    <td width="80%" style="   display: inline-block; height: 40px;width: 80%;">
+
+                        <div class="page-input input-simple-1 input-blue text">
+                            <input style="border:none !important;" type="text" id="search_repo_keyword">
+                        </div>
+                    </td>
+                    <td width="10%" style="display: inline-block;height: 100%;width: 15%;">
+                        <a data-bind="search_repo" style="color:red;text-align: right;" class="iconText centerIcon no-title"><i class="bmico bmico-search-icon"></i></a>
+                    </td>
+                </tr>
+                <tr style="display:block;height: 30px;    width: 100vw;border-bottom: 1px solid #eaf0f1;">
+                    <td colspan="2" style="height:1px">
+                        <span style="    float: left; margin: 5px 2px 0px 10px; display: inline-flex;">  Selected Keywords:</span>
+                        <span id="search_repo_keywords_list" data-bind="search_repo_keywords_list" class="chips chips-small" style="float: left;width: 75vw; display: inline-flex;text-align: left;max-height: 60px;overflow-x: scroll !important;white-space: nowrap;">
+
+
+                        </span>
+                    </td>
+                </tr>
+                <tr style="display: block; width: 100%;height: calc(100vh - 190px);padding: 10px;">
+                    <td colspan="2" style="    display: block;width: 100%;    height: calc(100% - 50px);position: relative;">
+                        <div style="display:none;margin: 8px;font-size: 14px;font-weight: 500;">Search Result</div>                        
+                        <div data-bind="search_repo_results_area" style="height:100%;  overflow-y: auto;">
+                            <div data-bind="search_repo_results" style="width:100%;display:inline-block">
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
+
+        </div>
+
+
+
+
+    </div>
+    <style>
+        .searchRepoItemInfoBox {
+            width:100%;
+            margin-bottom:-10px;
+        }
+
+        .searchRepoItemInfoBox td {
+           border-top:solid 1px #e8e8e8;
+            color:#a2a2a2;
+            padding:10px;
+            text-align:left;
+            background-color:#f2f2f2 !important;
+            font-weight: 600;
+            
+        }
+        .searchRepoItemInfoBox td  img {
+            width:150px;margin-left:55px;
+        }
+        .searchRepoItemInfoBox  tr:first-child td {
+            height:100px;padding:20px;
+             background-color:transparent !important;
+             border:none;
+        }
+        .searchRepoItemInfoBox  tr >td:last-child{
+             font-weight: 700;
+             text-align:right;
+             color: #747474;
+        }
+        .searchRepoItemInfoBox .bmico-cross-icon {
+            position:absolute;right:20px;top:15px;font-size:22px;
+        }
+    </style>
+    <script type="text/html" data-execute="animobile.searchRepoItemInfoTemplate=$(this).html()">
+        <table class="searchRepoItemInfoBox">
+            <tr>
+                <td colspan="2" >
+                    <img  src="{{item.thumbUrl}}"/>
+                    <i class="bmico bmico-cross-icon"></i>
+                </td>
+            </tr>
+            <tr><td>Kind</td><td>{{item.typetag}}</td></tr>
+            <tr><td>Size</td><td>{{item.tag1}}</td></tr>
+            <tr><td>{{item.extraInfo}}</td><td>{{item.extraInfoValue}}</td></tr>
+        </table> 
+    </script>
+    <script type="text/html" data-execute="animobile.searchRepoItemTemplate=$(this).html()">
+        <div class="repo_item">
+            <div id="overlay"></div>
+            <img src="{{item.thumbUrl}}">
+          
+            <div class="info">               
+                <div class="typetag" style="max-height: 5px;text-align: left;font-size: 11px;margin: 4px;">
+                    {{item.typetag}}
+                </div>
+                <span class="tag1">{{item.tag1}}</span>
+            </div>
+            <div class="info-icon">
+                <i class="fa fa-info-circle"></i>
+            </div>
+        </div>
+    </script>
+</div>
