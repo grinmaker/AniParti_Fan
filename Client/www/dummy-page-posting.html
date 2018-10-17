@@ -1,0 +1,41 @@
+﻿<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height" />
+    <script type="text/javascript" src="ani_canvas/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="ani_canvas/style.css?ss">
+    <link rel="stylesheet" type="text/css" href="ani_canvas/fonts/css/fontawesome-all.min.css">
+    <link rel="stylesheet" type="text/css" href="ani_canvas/framework.css?">
+    <script type="text/javascript" src="ani_canvas/plugins.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>    
+    <script type="text/javascript" src="ani_canvas/inject.js"></script>
+    <script type="text/javascript" src="scripts/session.js"></script>
+	<script>
+	    var session = Blmani.Session.getInstance().get();
+		if(!session){
+		  window.location ="login.html";
+		}
+        window.loadUrl("http://blmani.com/aniparti_fan/creation_tool.html?" + Date.now()).onload = function () {
+            var r = window.parseCodeBlocks(this.response);          
+            var e = document.createElement('div');
+            e.innerHTML = r;
+            var initScript = e.querySelector(".codeBlock");           
+            if (initScript) {
+                document.body.appendChild(e);
+                e.style.display = "none";
+                eval(initScript.innerHTML.replace("<!--", "").replace("-->", ""));
+                initScript.parentNode.removeChild(initScript);
+            }
+        }
+		
+		
+	   
+	  
+		
+
+    </script>
+</head>
+<body></body>
+</html>

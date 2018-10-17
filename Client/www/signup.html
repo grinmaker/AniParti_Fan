@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height" />
+    <title>Comics - Blmani </title>
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="fonts/css/fontawesome-all.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/framework.css">
+    <link rel="stylesheet" type="text/css" href="fonts/css/line-awesome.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <style>
+        .xphone {
+            height: 0;
+            height: env(safe-area-inset-top);
+            background: #fff;
+            display: block;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+        }
+        .header-light{
+            top: env(safe-area-inset-top); /* iOS 11.2 */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="preloader" class="preloader-light"> <a href="#" class="map-but-1 closethis" style="background: rgba(255, 255, 255, 0.7); border-radius: 40px; left: 10px; top: 10px;"><i class="la la-times font-12 color-black" style="    line-height: 53px; font-size: 19px !important; text-shadow: 0px 0px 5px #fff;"></i></a>
+        <h1 class="center-text color-black ultrabold uppercase bottom-0 fa-2x"><img src="images/logo-dark-red.png" style="margin:0 auto" alt=""></h1>
+        <div id="preload-spinner"></div>
+    </div>
+	<div class="loading-gif hideit"><img src="images/loadersvg.svg"></div>
+	<p id="toast-2" class="toast toast-bottom toast-large bg-gray-dark">We have sent Activation link to your email, please activate your account before login.</p>
+    <div id="page-transitions" class="page-build highlight-red">
+        <div class="xphone"></div>
+        <div class="header header-light header-static header-logo-app hide-header-card">
+            <!--<a href="#" class="header-icon header-icon-1 back-button"><i class="la la-arrow-left"></i></a>-->
+            <a href="#" class="header-icon header-icon-1  logoff-back-btn"><i class="la la-arrow-left"></i></a>
+        </div>
+        <div class="page-content">
+            <div class="header-card card card-white card-full">
+            	<div class="header header-static header-logo-app">
+				<a href="#" class="header-icon header-icon-1 back-button"><i class="la la-arrow-left" style="color: #8E8E93;"></i></a>
+			</div>
+			<div class="formSuccessMessageWrap" id="formSuccessMessageWrap">
+						<div class="notification-large notification-has-icon notification-green">
+							<div class="notification-icon"><i class="fa fa-check notification-icon"></i></div>
+							<h1 class="uppercase ultrabold">Message sent</h1>
+							<p>We'll get back to you in the shorts possible time.</p>
+							<a href="#" class="close-notification"><i class="fa fa-times"></i></a>
+						</div>				
+			</div>			
+			<form action="http://localhost/netnock/contact.php" method="post" class="signupForm" id="signupForm">
+			<fieldset>
+                <div class="page-login top-60">
+                    <img class="preload-image" src="images/logo-dark-red.png" data-src="images/logo-dark-red.png" alt="img">
+                    <h3 class="regularbold top-30 su-page-title">Signup using email</h3>
+					<div class="formValidationError bg-red-dark top-20" id="usernameFieldError">
+						<p class="center-text uppercase small-text color-white su-err-username">Username is required!</p>
+					</div>
+					<div class="formValidationError bg-red-dark top-20" id="passwordFieldError">
+						<p class="center-text uppercase small-text color-white su-err-password">Password is required!</p>
+					</div>
+					<div class="formValidationError bg-red-dark top-20" id="vpasswordFieldError">
+						<p class="center-text uppercase small-text color-white su-err-vpassword">Confrim Password is required!</p>
+					</div>
+					<div class="formValidationError bg-red-dark top-20" id="vpasswordFieldError2">
+						<p class="center-text uppercase small-text color-white su-err-vpasswordMatch">Passwords don't match!</p>
+					</div>
+					<div class="formValidationError bg-red-dark top-20" id="emailFieldError">
+						<p class="center-text uppercase small-text color-white su-err-email">Email is required!</p>
+					</div>
+					<div class="formValidationError bg-red-dark top-20" id="emailFieldError2">
+								<p class="center-text uppercase small-text color-white su-err-email-wrong">Email address must be valid!</p>
+					</div>
+					<div class="formValidationError bg-red-dark top-20" id="formError3"></div>
+                    <div class="page-login-field top-15">
+                        <i class="la la-user"></i>
+                        <input type="text" placeholder="Username" name="username" value="" class="usernameField requiredField" id="usernameField">
+                    </div>
+                    <div class="page-login-field bottom-20">
+                        <i class="la la-envelope-o"></i>
+                        <input type="email" placeholder="Type your email" name="email" value="" class="emailField requiredField requiredEmailField" id="emailField">
+                    </div>
+                    <div class="page-login-field bottom-20">
+                        <i class="la la-unlock-alt"></i>
+                        <input type="password" placeholder="Password" name="password" value="" class="passwordField requiredField" id="passwordField">
+                    </div>
+					<div class="page-login-field bottom-20">
+                        <i class="la la-unlock-alt"></i>
+                        <input type="password" placeholder="Confrim Password" name="vpassword" value="" class="vpasswordField requiredField" id="vpasswordField">
+                    </div>
+                    <!--<a href="#" class="button bg-highlight button-full button-s regularbold">Signup</a>-->
+					<input type="submit" class="buttonWrap button bg-highlight button-sm button-rounded uppercase ultrabold contactSubmitButton top-30" id="signUpButton" value="Sign Up" data-formId="signupForm" />
+					<a href="login.html" class="dark-btn-bg button button-s button-full button-icon regularbold have-account"><i class="la la-user"></i>Have an Account already?</a>
+                </div>
+				</fieldset>
+				</form>	
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/socialLogin.js"></script>
+    <script type="text/javascript" src="scripts/plugins.js"></script>
+	<script type="text/javascript" src="scripts/session.js"></script>
+    <script type="text/javascript" src="scripts/custom.js"></script>
+	<script type="text/javascript" src="scripts/blmani.js"></script>
+	<script type="text/javascript" src="scripts/language.js"></script>
+	<script type="text/javascript">
+        document.addEventListener('deviceReady',function(){
+		    if(window.app){
+                window.app.setupPush();
+            }
+        },false);
+$(window).on('load',function(){
+    
+	$('#page-build').remove();
+	setTimeout(function(){$("#preloader").addClass('hide-preloader');},100);// will fade out the white DIV that covers the website.
+});
+
+   $(document).ready(function () {
+		   setSignupScreenContent();
+	});
+
+</script>
+</body>
